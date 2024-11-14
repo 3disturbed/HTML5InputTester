@@ -28,25 +28,25 @@
 
   // Monitor Keyboard Input
   document.addEventListener('keydown', (event) => {
-    keyInfo = \`Key Pressed: \${event.key}\`;
+    keyInfo = `Key Pressed: ${event.key}`;
   });
 
   // Monitor Touch Input
   canvas.addEventListener('touchmove', (event) => {
     const touch = event.touches[0];
-    touchPos = \`Touch Position: (\${touch.clientX}, \${touch.clientY})\`;
+    touchPos = `Touch Position: (${touch.clientX}, ${touch.clientY})`;
   });
 
   // Monitor Device Orientation (Tilt)
   window.addEventListener('deviceorientation', (event) => {
-    tiltInfo = \`Tilt - Alpha: \${event.alpha.toFixed(2)}, Beta: \${event.beta.toFixed(2)}, Gamma: \${event.gamma.toFixed(2)}\`;
+    tiltInfo = `Tilt - Alpha: ${event.alpha.toFixed(2)}, Beta: ${event.beta.toFixed(2)}, Gamma: ${event.gamma.toFixed(2)}`;
   });
 
   // Monitor Gamepad Input
   function gamepadLoop() {
     const gamepads = navigator.getGamepads();
     if (gamepads[0]) {
-      gamepadInfo = \`Gamepad Axes[0]: \${gamepads[0].axes[0].toFixed(2)}\`;
+      gamepadInfo = `Gamepad Axes[0]: ${gamepads[0].axes[0].toFixed(2)}`;
     } else {
       gamepadInfo = 'No Gamepad Connected';
     }
