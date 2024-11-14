@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Input Monitor</title>
+  <style>
+    body { margin: 0; }
+    canvas { display: block; margin: auto; background-color: #f0f0f0; }
+  </style>
+</head>
+<body>
+<canvas id="inputCanvas" width="800" height="600"></canvas>
+<script>
+  const canvas = document.getElementById('inputCanvas');
+  const ctx = canvas.getContext('2d');
+
+  // Variables to store input data
+  let mousePos = '';
+  let keyInfo = '';
+  let touchPos = '';
+  let tiltInfo = '';
+  let gamepadInfo = '';
+
+  // Monitor Mouse Input
+  canvas.addEventListener('mousemove', (event) => {
+    mousePos = \`Mouse Position: (\${event.clientX}, \${event.clientY})\`;
+  });
+
+  // Monitor Keyboard Input
+  document.addEventListener('keydown', (event) => {
+    keyInfo = \`Key Pressed: \${event.key}\`;
+  });
+
+  // Monitor Touch Input
+  canvas.addEventListener('touchmove', (event) => {
+    const touch = event.touches[0];
+    touchPos = \`Touch Position: (\${touch.clientX}, \${touch.clientY})\`;
+  });
+
+  // Monitor Device Orientation (Tilt)
+  window.addEventListener('deviceorientation', (event) => {
+    tiltInfo = \`Tilt - Alpha: \${event.alpha.toFixed(2)}, Beta: \${event.beta.toFixed(2)}, Gamma: \${event.gamma.toFixed(2)}\`;
+  });
+
+  // Monitor Gamepad Input
+  function gamepadLoop() {
+    const gamepads = navigator.getGamepads();
+    if (gamepads[0]) {
+      gamepadInfo = \`Gamepad Axes[0]: \${gamepads[0].axes[0].toFixed(2)}\`;
+    } else {
+      gamepadInfo = 'No Gamepad Connected';
+    }
+    requestAnimationFrame(gamepadLoop);
+  }
+  window.addEventListener('gamepadconnected', gamepadLoop);
+  window.addEventListener('gamepaddisconnected', () => {
+    gamepadInfo = 'Gamepad Disconnected';
+  });
+
+  // Display Data on Canvas
+  function render() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.font = '20px Arial';
+    ctx.fillStyle = 'black';
+    ctx.fillText(mousePos, 20, 40);
+    ctx.fillText(keyInfo, 20, 80);
+    ctx.fillText(touchPos, 20, 120);
+    ctx.fillText(tiltInfo, 20, 160);
+    ctx.fillText(gamepadInfo, 20, 200);
+    requestAnimationFrame(render);
+  }
+
+  // Start Rendering
+  render();
+</script>
+</body>
+</html>
